@@ -33,6 +33,6 @@ const farmerSchema = new mongoose.Schema({
 ,)
 
 
-const Farmer = mongoose.model("Farmer, farmerSchema");
+const Farmer = mongoose.model("Farmer", farmerSchema);
 
 module.exports = Farmer;

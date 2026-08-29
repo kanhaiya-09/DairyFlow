@@ -22,7 +22,7 @@ const createFarmer = async (req, res) => {
                 });
         }
         // Check if phone already exists.
-        const existingFarmer = await Farmer.findOne({ phone });
+        existingFarmer = await Farmer.findOne({ phone });
         if(existingFarmer){
             return res.status(409).json(
                 {
@@ -67,6 +67,7 @@ const createFarmer = async (req, res) => {
             message: "Failed to create farmer"
         });
     }
+    
 }
 
-mmodule.exports = { createFarmer }
+module.exports = { createFarmer }
