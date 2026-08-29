@@ -9,7 +9,13 @@ const app = express();
 
 const PORT = process.env.PORT || 8000;
 
+const farmerRoutes = require("./routes/farmerRoutes");
+
 connectDB();
+
+app.use(express.json());
+
+app.get("/api/farmers", farmerRoutes);
 
 app.get("/", (req, res) => {
     res.send("Welcome to Dairy Flow");
