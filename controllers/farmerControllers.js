@@ -7,7 +7,7 @@ const createFarmer = async (req, res) => {
         const { farmerId, name, phone, address } = req.body;
         
         // Basic validation
-        if(!farmerId || name || phonne ){
+        if(!farmerId || !name || !phone ){
             return res.status(400).json({
                 message: "Farmer Id, name and phone are must."
             });
@@ -22,8 +22,8 @@ const createFarmer = async (req, res) => {
                 });
         }
         // Check if phone already exists.
-        existingFarmer = await Farmer.findOne({ phone });
-        if(existingFarmer){
+        const existingUser = await User.findOne({ phone });
+        if(existingUser){
             return res.status(409).json(
                 {
                     message: "Phone already exists."
@@ -53,7 +53,7 @@ const createFarmer = async (req, res) => {
             message: "Farmer created successfully",
             farmer: {
                 id: farmer._id,
-                farmerId: farmer.famerId,
+                farmerId: farmer.farmerId,
                 name: farmer.name,
                 phone: farmer.phone,
             },

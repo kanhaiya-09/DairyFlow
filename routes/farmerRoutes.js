@@ -2,6 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { createFarmer } = require("../controllers/farmerControllers")
 
-router.post("/", createFarmer);
+const authenticate = require("../middlewares/authMiddlewares");
+const authorizeAdmin = require("../middlewares/authorizeAdmin");
+
+router.post(
+    "/", 
+    authenticate, 
+    authorizeAdmin, 
+    createFarmer);
 
 module.exports = router;
