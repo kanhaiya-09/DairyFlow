@@ -11,24 +11,24 @@ const purchaseSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    
+    category: {
+        type: String,
+        enum: [
+            "feed",
+            "medicine",
+            "grocery",
+            "other"
+        ],
+        required: true
+    },
     quantity: {
         type: Number,
         required: true,
         min: 0
-        
     },
-    category: {
-            type: String,
-            enum: [
-                "feed",
-                "medicine",
-                "grocery",
-                "other"
-            ],
-            required: true
-        },
     unit: {
-        type: Number,
+        type: String,
         required: true,
     },
     price: {
@@ -38,7 +38,6 @@ const purchaseSchema = new mongoose.Schema({
     },
     totalAmount: {
         type: Number,
-        required: true,
         min: 0,
     },
     date: {

@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 8000;
 const farmerRoutes = require("./routes/farmerRoutes");
 const authRoutes = require("./routes/authRoutes");
 const milkRoutes = require("./routes/milkRoutes");
+const purchaseRoutes = require("./routes/purchaseRoutes");
+
 
 connectDB();
 
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use("/api/farmers", farmerRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/milk-collections", milkRoutes);
+app.use("/api/purchases", purchaseRoutes);
 
 app.get("/", (req, res) => {
     res.send("Welcome to Dairy Flow");
