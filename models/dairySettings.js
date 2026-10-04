@@ -12,9 +12,12 @@ const dairySettingsSchema = new mongoose.Schema(
             type: Number,
             required: true,
             min: 0
-        }
+        },
 
-        
+        isActive: {
+            type: Boolean,
+            default: true
+        }
     },
 
 

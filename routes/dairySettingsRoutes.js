@@ -7,9 +7,11 @@ const authenticate =
 
 const authorizeAdmin =
     require("../middlewares/authorizeAdmin");
-    
+
 const {
-    createDairySettings
+    createDairySettings,
+    getDairySettings,
+    updateDairySettings
 } = require("../controllers/dairySettingsControllers");
 
 
@@ -18,6 +20,22 @@ router.post(
     authenticate,
     authorizeAdmin,
     createDairySettings
+);
+
+
+router.get(
+    "/",
+    authenticate,
+    authorizeAdmin,
+    getDairySettings
+);
+
+
+router.put(
+    "/",
+    authenticate,
+    authorizeAdmin,
+    updateDairySettings
 );
 
 
