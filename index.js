@@ -13,6 +13,7 @@ const farmerRoutes = require("./routes/farmerRoutes");
 const authRoutes = require("./routes/authRoutes");
 const milkRoutes = require("./routes/milkRoutes");
 const purchaseRoutes = require("./routes/purchaseRoutes");
+const dairySettingsRoutes = require("./routes/dairySettingsRoutes");
 
 
 connectDB();
@@ -25,6 +26,8 @@ app.use("/api/farmers", farmerRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/milk-collections", milkRoutes);
 app.use("/api/purchases", purchaseRoutes);
+app.use( "/api/settings", dairySettingsRoutes );
+
 
 app.get("/", (req, res) => {
     res.send("Welcome to Dairy Flow");
