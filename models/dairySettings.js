@@ -14,9 +14,15 @@ const dairySettingsSchema = new mongoose.Schema(
             min: 0
         },
 
-        isActive: {
-            type: Boolean,
-            default: true
+
+        effectiveFrom: {
+            type: Date,
+            required: true
+        },
+
+        effectiveTo: {
+            type: Date,
+            default: null
         }
     },
 

@@ -19,8 +19,9 @@ const createDairySettings = async (req,res) => {
 
         const settings = await DairySettings.create({
             milkPricePerLiter,
-            badMilkDeductionPerLiter
-        });
+            badMilkDeductionPerLiter,
+            effectiveFrom: new Date()
+        }); 
 
         return res.status(201).json({
             message: "Dairy settings created successfully",
@@ -119,33 +120,45 @@ const updateDairySettings = async (req, res) => {
             });
         }
 
-        const settings = await DairySettings.findOneAndUpdate(
-            { isActive: true },
-            {
-                milkPricePerLiter,
-                badMilkDeductionPerLiter
-            },
-            {
-                new: true,
-                runValidators: true
-            }
-        );
-
-        if (!settings) {
-            return res.status(404).json({
-                message: "Dairy settings not configured"
+        const currentSettings =
+            await DairySettings.findOne({
+                effectiveTo: null
+            }).sort({
+                effectiveFrom: -1
             });
+
+        const effectiveFrom = new Date();
+
+        // Close current rate
+        if (currentSettings) {
+            currentSettings.effectiveTo =
+                effectiveFrom;
+
+            await currentSettings.save();
         }
 
+        // Create new rate
+        const newSettings = await DairySettings.create({
+            milkPricePerLiter,
+            badMilkDeductionPerLiter,
+            effectiveFrom,
+            effectiveTo: null
+        });
+
         return res.status(200).json({
-            message: "Dairy settings updated successfully",
+            message:
+                "Dairy settings updated successfully",
 
             settings: {
-                id: settings._id,
+                id: newSettings._id,
                 milkPricePerLiter:
-                    settings.milkPricePerLiter,
+                    newSettings.milkPricePerLiter,
                 badMilkDeductionPerLiter:
-                    settings.badMilkDeductionPerLiter
+                    newSettings.badMilkDeductionPerLiter,
+                effectiveFrom:
+                    newSettings.effectiveFrom,
+                effectiveTo:
+                    newSettings.effectiveTo
             }
         });
 
