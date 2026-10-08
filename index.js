@@ -14,7 +14,8 @@ const authRoutes = require("./routes/authRoutes");
 const milkRoutes = require("./routes/milkRoutes");
 const purchaseRoutes = require("./routes/purchaseRoutes");
 const dairySettingsRoutes = require("./routes/dairySettingsRoutes");
-
+const settlementRoutes =
+    require("./routes/settlementRoutes");
 
 connectDB();
 
@@ -27,7 +28,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/milk-collections", milkRoutes);
 app.use("/api/purchases", purchaseRoutes);
 app.use( "/api/settings", dairySettingsRoutes );
-
+app.use(
+    "/api/settlements",
+    settlementRoutes
+);
 
 app.get("/", (req, res) => {
     res.send("Welcome to Dairy Flow");
