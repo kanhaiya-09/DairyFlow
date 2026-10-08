@@ -47,7 +47,6 @@ const settlementSchema = new mongoose.Schema(
         finalPayableAmount: {
             type: Number,
             required: true,
-            min: 0
         },
 
         paymentStatus: {
