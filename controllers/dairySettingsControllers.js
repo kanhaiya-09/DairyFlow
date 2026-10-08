@@ -1,27 +1,45 @@
 const DairySettings = require("../models/dairySettings");
 
-const createDairySettings = async (req,res) => {
+const createDairySettings = async (req, res) => {
     try {
+        const {
+            milkPricePerLiter,
+            badMilkDeductionPerLiter
+        } = req.body;
 
-        const { milkPricePerLiter, badMilkDeductionPerLiter } = req.body;
-
-        if(milkPricePerLiter === undefined || badMilkDeductionPerLiter === undefined ){
+        if (
+            milkPricePerLiter === undefined ||
+            badMilkDeductionPerLiter === undefined
+        ) {
             return res.status(400).json({
                 message: "All fields are required"
-            })
+            });
         }
 
-        if(badMilkDeductionPerLiter >= milkPricePerLiter) {
+        if (
+            milkPricePerLiter < 0 ||
+            badMilkDeductionPerLiter < 0
+        ) {
             return res.status(400).json({
-                message: "Deduction Rate cannot be higher than Per Liter Price."
-            })
+                message: "Rates cannot be negative"
+            });
+        }
+
+        if (
+            badMilkDeductionPerLiter >
+            milkPricePerLiter
+        ) {
+            return res.status(400).json({
+                message:
+                    "Deduction rate cannot be higher than milk price"
+            });
         }
 
         const settings = await DairySettings.create({
             milkPricePerLiter,
             badMilkDeductionPerLiter,
             effectiveFrom: new Date()
-        }); 
+        });
 
         return res.status(201).json({
             message: "Dairy settings created successfully",
@@ -31,7 +49,11 @@ const createDairySettings = async (req,res) => {
                 milkPricePerLiter:
                     settings.milkPricePerLiter,
                 badMilkDeductionPerLiter:
-                    settings.badMilkDeductionPerLiter
+                    settings.badMilkDeductionPerLiter,
+                effectiveFrom:
+                    settings.effectiveFrom,
+                effectiveTo:
+                    settings.effectiveTo
             }
         });
 
@@ -45,8 +67,7 @@ const createDairySettings = async (req,res) => {
             message: "Failed to create dairy settings"
         });
     }
-
-}
+};
 
 const getDairySettings = async (req, res) => {
     try {
